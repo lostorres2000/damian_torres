@@ -1,0 +1,33 @@
+
+import urllib.request
+
+from bs4 import BeautifulSoup
+
+# Definir una función llamada get_price que toma una URL como argumento
+def get_price(url):
+    # Descargar el contenido de la página web usando urlopen y abrir la URL especificada
+    with urllib.request.urlopen(url) as response:
+        # Leer el contenido de la respuesta y almacena en la variable html
+        html = response.read()
+    
+    # Crear un objeto BeautifulSoup a partir del contenido HTML descargado
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    price_element = soup.find("div", {"class": input("Clase de la pagina: ")})
+
+    # Si no se encuentra ningún elemento se asigna la cadena "Precio no encontrado"
+    price = price_element.text.strip() if price_element else "Precio no encontrado"
+    
+    # Retornar el precio obtenido
+    return price
+
+# Bucle infinito que pide al usuario que ingrese una URL y muestra el precio obtenido llamando a la función get_price
+while True:
+
+    url = input('ingresar la URL de la pagina')
+    # Verificar si el usuario presionó Enter (es decir, ingresó una cadena vacía)
+    if url == '':
+
+        break
+
+    print(get_price(url))
